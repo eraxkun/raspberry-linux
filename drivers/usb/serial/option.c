@@ -47,6 +47,14 @@ static int option_attach(struct usb_serial *serial);
 static void option_release(struct usb_serial *serial);
 static void option_instat_callback(struct urb *urb);
 
+#define SIMCOM_SIM7600_VID 			0x1E0E
+#define SIMCOM_SIM7600_PID 			0x9001
+
+//for SIM7600 modem for NDIS
+static const struct option_blacklist_info simcom_sim7600_blacklist = {
+.reserved = BIT(5),
+}; 
+
 /* Vendor and product IDs */
 #define OPTION_VENDOR_ID			0x0AF0
 #define OPTION_PRODUCT_COLT			0x5000
@@ -589,6 +597,8 @@ static void option_instat_callback(struct urb *urb);
 
 
 static const struct usb_device_id option_ids[] = {
+	{ USB_DEVICE(SIMCOM_SIM7600_VID, SIMCOM_SIM7600_PID),
+	  .driver_info = (kernel_ulong_t)& simcom_sim7600_blacklist},
 	{ USB_DEVICE(OPTION_VENDOR_ID, OPTION_PRODUCT_COLT) },
 	{ USB_DEVICE(OPTION_VENDOR_ID, OPTION_PRODUCT_RICOLA) },
 	{ USB_DEVICE(OPTION_VENDOR_ID, OPTION_PRODUCT_RICOLA_LIGHT) },
